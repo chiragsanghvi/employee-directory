@@ -13,7 +13,12 @@ The application runs out-of-the-box with an in-memory data store or Appacitive.
 
 To run this application you'll need a web server as the templates are fetched using AJAX calls. 
 
-For MAC OS you can simply use [Anvil](http://anvilformac.com/). For
-For others, you can either use apache or [static node.js server](https://gist.github.com/rpflorence/701407)
+For MAC OS you can simply use [Anvil](http://anvilformac.com/). 
+
+For others, you can either use [static node.js server](https://gist.github.com/rpflorence/701407). Just install [nodejs](http://nodejs.org) and then run this command in your app's directory
+
+```javascript
+node server.js 8000
+```
 
 This sample has been forked from [ccoenraets/directory-backbone-bootstrap](https://github.com/ccoenraets/directory-backbone-bootstrap).
