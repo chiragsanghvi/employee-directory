@@ -6,7 +6,9 @@
 
 Refer to [this blog post]() for more information about the application.
 
-The application runs out-of-the-box with an in-memory data store or Appacitive.
+You can view the live application hosted on Appacitive <a href="http://emp-directory.appacitive.com">here<a>.
+
+The application runs out-of-the-box with an in-memory or Appacitive data store.
 
 - [directory-appacitive](https://github.com/chiragsanghvi/employee-directory/tree/master/js/models/model-appacitive-com.js) (Appacitive persistence implementation)
 - [directory-in-memory](https://github.com/chiragsanghvi/employee-directory/tree/master/js/models/model-in-memory.js) (In-memory store implementation)
