@@ -1,8 +1,8 @@
 ## Employee Directory ##
 
-### Sample Application built with Backbone.js and Twitter Bootstrap using 2 data adapters viz. in-memory store and [Appacitive](http://www.appacitive.com) for persistences ###
+### Sample Application built with Backbone.js and Twitter Bootstrap using 2 data adapters viz. localstorage and [Appacitive](http://www.appacitive.com) as data store ###
 
-"Backbone Directory" is a simple Employee Directory application built with [Backbone.js](http://backbonejs.org) and [Twitter Bootstrap] (http://twitter.github.io/bootstrap/).
+"Employee Directory" is a simple application built with [Backbone.js](http://backbonejs.org) and [Twitter Bootstrap] (http://twitter.github.io/bootstrap/).
 
 Refer to [this blog post]() for more information about the application.
 
@@ -17,7 +17,7 @@ To run this application you'll need a web server as the templates are fetched us
 
 For MAC OS you can simply use [Anvil](http://anvilformac.com/). 
 
-For others, you can either use [static node.js server](https://gist.github.com/rpflorence/701407). Just install [nodejs](http://nodejs.org) and then run this command in your app's directory
+For others, just install [nodejs](http://nodejs.org) and then run this command in your app's directory
 
 ```javascript
 node server.js 8000
