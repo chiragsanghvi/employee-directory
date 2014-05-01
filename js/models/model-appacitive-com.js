@@ -55,7 +55,7 @@ directory.Employee = Appacitive.Object.extend("employees", {
             promise.fulfill.apply(promise, [self, reports]);
         }, function() {
             promise.reject.apply(promise, arguments);
-        });1
+        });
 
         return promise;
     }
@@ -71,13 +71,10 @@ directory.EmployeeCollection = Appacitive.Collection.extend(({
         if (options.data && options.data.name) {
             var firstNameFilter = Appacitive.Filter.Property('firstname').match(options.data.name);
             var lastNameFilter = Appacitive.Filter.Property('lastname').match(options.data.name);
-            this.query().filter(
-                Appacitive.Filter.Or(firstNameFilter, lastNameFilter)
-            );
+            this.query().filter(Appacitive.Filter.Or(firstNameFilter, lastNameFilter));
         } else {
             this.query().filter('');
         }
-
 
         Appacitive.Collection.prototype.fetch.apply(this, arguments);
     }
