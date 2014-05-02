@@ -1,23 +1,38 @@
 
+
+// Intialize Appacitive SDK
 Appacitive.initialize({
     apikey: 'kLICDfoSbyuxeQiw36qpcZJv7zeUxNte0sp1hr3oi8U=',
     appId: '57178692622877665',
     env: 'sandbox'
 });
 
+
+// Employee Model
+// ----------
+
+// Our basic **Employee** model.
+// To use Appacitive as data store
 directory.Employee = Appacitive.Object.extend("employees", {
 
+    // Default attributes for the emplyee
     defaults: {
         managerid: null,
         managedname: ''
     },
 
+    // Override internal constructor to add endpoints for connection
+    // If attributes has id passed, then we set __id in the attributes 
+    // Finally we call the internal constructor
     constructor: function(attrs) {
-        // Hack to set id property from __id as Appacitive doesn't support id directly and vice-versa
+        // Hack to set id property from __id as Appacitive doesn't support setting id directly and vice-versa
+        // Appacitive maps id to __id 
         if (attrs.id) attrs.__id = attrs.id
         else if (attrs.__id) attrs.id = attrs.__id;
 
-        // Invoke base constructor
+        delete attrs.id;
+
+        // Invoke internal constructor
         Appacitive.Object.apply(this, arguments);
     },
 
@@ -94,11 +109,16 @@ directory.Employee = Appacitive.Object.extend("employees", {
 
 });
 
+// Employee Collection
+// ---------------
+
+// The collection of employees is backed by *Appacitive*
 directory.EmployeeCollection = Appacitive.Collection.extend(({
 
+    // Reference to this collection's model.
     model: directory.Employee,
 
-    // Override base fetch function to set filters
+    // Override base fetch function to set filters in query when called
     fetch: function(options) {
         console.log('custom fetch');
         // If options contain name then only define filters else set filter as empty
@@ -119,17 +139,22 @@ directory.EmployeeCollection = Appacitive.Collection.extend(({
             this.query().filter('');
         }
 
-        // Call base fetch function with these arguments
+        // Call base fetch function with all arguments
         Appacitive.Collection.prototype.fetch.apply(this, arguments);
     }
 
 }));
 
+// ReportsCollection Collection
+// ---------------
+
+// The collection of employees who report to another employee
 directory.ReportsCollection = Appacitive.Collection.extend(({
 
+    // Reference to this collection's model.
     model: directory.Employee,
 
-    // Override fetch function to avoid making any calls
+    // Override fetch function to avoid making any API calls
     // As projection query from employee fetches and adds employees to this collection
     fetch: function(options) {
         var promise = Appacitive.Promise.buildPromise(options);
