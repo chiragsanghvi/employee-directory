@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<body>
+<style>
+    .import-log { background-color: #f1f1f1; padding: 15px 12px 5px; border: solid 1px #ddd; margin-top: 20px; font-size: 13px; color:#888; }
+    .import-log p { line-height: 8px; }
+</style>
+<div class="import-log">
+    <p>Starting Import</p> 
+</div>
+<script src="http://cdn.appacitive.com/sdk/js/appacitive-js-sdk-v0.9.6.5.js" type="text/javascript"></script>
+<script type="text/javascript">
+ 
+    // Initialize Appacitive SDK
+    Appacitive.initialize({
+        apikey: 'YOUR_CLIENT_KEY',
+        appId: 'YOUR_APPLICATION_ID',
+        env: 'sandbox'
+    });
+
+    var importLogEl = document.getElementsByClassName('import-log')[0];
+    logCallback = function(message) {
+        var p = document.createElement('p');
+        p.innerHTML = message;
+        importLogEl.appendChild(p);
+    };
+
+    var tasks1 = [],
+        tasks2 = [];
+ 
+    var Employee = Appacitive.Object.extend("employee", {
+        name: function() {
+            return this.get('firstname') +  ' ' + this.get('lastname');
+        }
+    });
+ 
+    var EmployeeCollection = Appacitive.Collection.extend({
+        model: Employee
+    });
+
+    var Manages = Appacitive.Connection.extend('manages');
+
+    var ManagesCollection = Appacitive.Collection.extend({
+        
+        model: Manages,
+
+        create: function(manager, todo) {
+            var endpoints = [{
+                label: 'manager',
+                object: manager
+            }, {
+                label: 'employee',
+                object: todo
+            }];
+
+            this.add({ endpoints: endpoints });
+        }
+    });
+
+    var employees = new EmployeeCollection(
+        [
+            {"blog":"http://devcenter.appacitive.com","cellphone":"617-000-0001","city":"Boston, MA","department":"Corporate","email":"jking@fakemail.com","firstname":"James","lastname":"King","officephone":"781-000-0001","pic":"http://cdn.appacitive.com/devcenter/root/emp-directory/James_King.jpg","title":"President and CEO","twitterid":"@fakejking"},
+{"blog":"http://devcenter.appacitive.com","cellphone":"617-000-0005","city":"Boston, MA","department":"Sales","email":"rmoore@fakemail.com","firstname":"Ray","lastname":"Moore","officephone":"781-000-0005","pic":"http://cdn.appacitive.com/devcenter/root/emp-directory/Ray_Moore.jpg","title":"VP of Sales","twitterid":"@fakermoore"},
+{"blog":"http://devcenter.appacitive.com","cellphone":"617-000-0010","city":"Boston, MA","department":"Sales","email":"kbyrne@fakemail.com","firstname":"Kathleen","lastname":"Byrne","officephone":"781-000-0010","pic":"http://cdn.appacitive.com/devcenter/root/emp-directory/Kathleen_Byrne.jpg","title":"Sales Representative","twitterid":"@fakekbyrne"},
+{"blog":"http://devcenter.appacitive.com","cellphone":"617-000-0011","city":"Boston, MA","department":"Sales","email":"ajones@fakemail.com","firstname":"Amy","lastname":"Jones","officephone":"781-000-0011","pic":"http://cdn.appacitive.com/devcenter/root/emp-directory/Amy_Jones.jpg","title":"Sales Representative","twitterid":"@fakeajones"},
+{"blog":"http://devcenter.appacitive.com","cellphone":"617-000-0004","city":"Boston, MA","department":"Engineering","email":"jwilliams@fakemail.com","firstname":"John","lastname":"Williams","officephone":"781-000-0004","pic":"http://cdn.appacitive.com/devcenter/root/emp-directory/John_Williams.jpg","title":"VP of Engineering","twitterid":"@fakejwilliams"},
+{"blog":"http://devcenter.appacitive.com","cellphone":"617-000-0012","city":"Boston, MA","department":"Engineering","email":"swells@fakemail.com","firstname":"Steven","lastname":"Wells","officephone":"781-000-0012","pic":"http://cdn.appacitive.com/devcenter/root/emp-directory/Steven_Wells.jpg","title":"Software Architect","twitterid":"@fakeswells"},
+{"blog":"http://devcenter.appacitive.com","cellphone":"617-000-0007","city":"Boston, MA","department":"Engineering","email":"pgates@fakemail.com","firstname":"Paula","lastname":"Gates","officephone":"781-000-0007","pic":"http://cdn.appacitive.com/devcenter/root/emp-directory/Paula_Gates.jpg","title":"Software Architect","twitterid":"@fakepgates"},
+{"blog":"http://devcenter.appacitive.com","cellphone":"617-000-0006","city":"Boston, MA","department":"Engineering","email":"pjones@fakemail.com","firstname":"Paul","lastname":"Jones","officephone":"781-000-0006","pic":"http://cdn.appacitive.com/devcenter/root/emp-directory/Paul_Jones.jpg","title":"QA Manager","twitterid":"@fakepjones"},
+{"blog":"http://devcenter.appacitive.com","cellphone":"617-000-0003","city":"Boston, MA","department":"Accounting","email":"elee@fakemail.com","firstname":"Eugene","lastname":"Lee","officephone":"781-000-0003","pic":"http://cdn.appacitive.com/devcenter/root/emp-directory/Eugene_Lee.jpg","title":"CFO","twitterid":"@fakeelee"},
+{"blog":"http://devcenter.appacitive.com","cellphone":"617-000-0002","city":"Boston, MA","department":"Marketing","email":"jtaylor@fakemail.com","firstname":"Julie","lastname":"Taylor","officephone":"781-000-0002","pic":"http://cdn.appacitive.com/devcenter/root/emp-directory/Julie_Taylor.jpg","title":"VP of Marketing","twitterid":"@fakejtaylor"},
+{"blog":"http://devcenter.appacitive.com","cellphone":"617-000-0008","city":"Boston, MA","department":"Marketing","email":"lwong@fakemail.com","firstname":"Lisa","lastname":"Wong","officephone":"781-000-0008","pic":"http://cdn.appacitive.com/devcenter/root/emp-directory/Lisa_Wong.jpg","title":"Marketing Manager","twitterid":"@fakelwong"},
+{"blog":"http://devcenter.appacitive.com","cellphone":"617-000-0009","city":"Boston, MA","department":"Marketing","email":"gdonovan@fakemail.com","firstname":"Gary","lastname":"Donovan","officephone":"781-000-0009","pic":"http://cdn.appacitive.com/devcenter/root/emp-directory/Gary_Donovan.jpg","title":"Marketing Manager","twitterid":"@fakegdonovan"}
+        ]
+    );
+ 
+    // Pass 1: Save basic employee information
+    employees.each(function(employee) {
+        logCallback("Saving employee " + employee.name());
+        tasks1.push(employee.save());
+    });
+    
+    // Pass 2: Create manages connection between managers and employees  save
+    Appacitive.Promise.when(tasks1).then(function() {
+
+        logCallback("<br/>All employees saved<br/>");
+
+
+        var manages = new ManagesCollection();
+
+        manages.create(employees.at(0), employees.at(1));
+        manages.create(employees.at(0), employees.at(2));
+        manages.create(employees.at(0), employees.at(3));
+        manages.create(employees.at(0), employees.at(4));
+
+        manages.create(employees.at(1), employees.at(5));
+        manages.create(employees.at(1), employees.at(6));
+
+        manages.create(employees.at(2), employees.at(7));
+        manages.create(employees.at(2), employees.at(8));
+        manages.create(employees.at(2), employees.at(9));
+
+        manages.create(employees.at(4), employees.at(10));
+        manages.create(employees.at(4), employees.at(11));
+
+        manages.each(function(manage) {
+            tasks2.push(manage.save());
+        });
+
+        logCallback('<br/>Connecting employees by heirarchy...<br/><br/>');
+
+        Appacitive.Promise.when(tasks2).then(function(records) {
+
+            records.forEach(function(r) {
+                logCallback(employees.get(r.endpoints('employee').objectid).name() + ' now reports to ' + employees.get(r.endpoints('employee').objectid).name());
+            });
+
+            logCallback("<br/><br/>All records populated");
+        });
+
+    });
+
+ 
+</script>
+
+</body>
+</html>

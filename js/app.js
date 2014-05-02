@@ -54,7 +54,7 @@ directory.Router = Backbone.Router.extend({
     },
 
     employeeDetails: function (id) {
-        var employee = new directory.Employee({id: id});
+        var employee = new directory.Employee({id: id });
         var self = this;
         employee.fetch({
             success: function (data) {

@@ -1,19 +1,18 @@
 
 
-// Intialize Appacitive SDK
+// Initialize Appacitive SDK
 Appacitive.initialize({
     apikey: 'kLICDfoSbyuxeQiw36qpcZJv7zeUxNte0sp1hr3oi8U=',
     appId: '57178692622877665',
     env: 'sandbox'
 });
 
-
 // Employee Model
 // ----------
 
 // Our basic **Employee** model.
 // To use Appacitive as data store
-directory.Employee = Appacitive.Object.extend("employees", {
+directory.Employee = Appacitive.Object.extend("employee", {
 
     // Default attributes for the emplyee
     defaults: {
@@ -30,15 +29,8 @@ directory.Employee = Appacitive.Object.extend("employees", {
         if (attrs.id) attrs.__id = attrs.id
         else if (attrs.__id) attrs.id = attrs.__id;
 
-        delete attrs.id;
-
         // Invoke internal constructor
         Appacitive.Object.apply(this, arguments);
-    },
-
-    // Return id of this object
-    getId: function() {
-        return this.id();
     },
 
     // Returns name formed by concatinating firstnamr and lastname
@@ -62,7 +54,7 @@ directory.Employee = Appacitive.Object.extend("employees", {
         var self = this;
 
         // Create grpah projection query by pass employee id
-        var query = new Appacitive.Queries.GraphProjectQuery('manages', [this.id()]);
+        var query = new Appacitive.Queries.GraphProjectQuery('manages', [this.id]);
         
         // Create a promise
         var promise = Appacitive.Promise.buildPromise(options);
@@ -89,7 +81,7 @@ directory.Employee = Appacitive.Object.extend("employees", {
             // If this employee is managed by any other employye 
             // Then we set managerid and managername property in this e,ployee
             if (managedBy.length > 0) {
-                self.set('managerid', managedBy[0].id());
+                self.set('managerid', managedBy[0].id);
                 self.set('managername', managedBy[0].name());
             }
 

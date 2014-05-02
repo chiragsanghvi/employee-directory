@@ -11,10 +11,6 @@ directory.Employee = Backbone.Model.extend({
                 options.success(data);
             });
         }
-    },
-
-    getId: function() {
-        return this.get('id');
     }
 });
 
