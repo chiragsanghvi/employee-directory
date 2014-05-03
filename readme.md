@@ -4,7 +4,7 @@
 
 "Employee Directory" is a simple application built with [Backbone.js](http://backbonejs.org) and [Twitter Bootstrap] (http://twitter.github.io/bootstrap/).
 
-Refer to [this blog post]() for more information about the application.
+Refer to [this tutorial](http://devcenter.appacitive.com/javascript/samples/employee-directory) for more information about the application.
 
 You can view the live application hosted on Appacitive <a href="http://emp-directory.appacitive.com">here<a>.
 

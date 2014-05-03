@@ -1,10 +1,10 @@
 
 
 // Initialize Appacitive SDK
-Appacitive.initialize({
-    apikey: 'kLICDfoSbyuxeQiw36qpcZJv7zeUxNte0sp1hr3oi8U=',
-    appId: '57178692622877665',
-    env: 'sandbox'
+Appacitive.initialize({ 
+    apikey: "{{API Key}}", 
+    env: "sandbox", 
+    appId: "{{App Id}}"
 });
 
 // Employee Model
