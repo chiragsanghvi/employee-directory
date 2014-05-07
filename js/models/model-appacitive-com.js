@@ -12,7 +12,10 @@ Appacitive.initialize({
 
 // Our basic **Employee** model.
 // To use Appacitive as data store
-directory.Employee = Appacitive.Object.extend("employee", {
+directory.Employee = Appacitive.Object.extend({
+
+    //type name to which this model binds on Appacitive
+    typeName: "employee",
 
     // Default attributes for the emplyee
     defaults: {
