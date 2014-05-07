@@ -54,7 +54,7 @@ directory.Employee = Appacitive.Object.extend("employee", {
         var self = this;
 
         // Create grpah projection query by pass employee id
-        var query = new Appacitive.Queries.GraphProjectQuery('manages', [this.id]);
+        var query = new Appacitive.Queries.GraphAPI('manages', [this.id]);
         
         // Create a promise
         var promise = Appacitive.Promise.buildPromise(options);
