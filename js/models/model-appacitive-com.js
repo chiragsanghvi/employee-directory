@@ -1,10 +1,10 @@
 
 
 // Initialize Appacitive SDK
-Appacitive.initialize({ 
-    apikey: "{{API Key}}", 
-    env: "sandbox", 
-    appId: "{{App Id}}"
+Appacitive.initialize({
+    apikey: '',
+    appId: '',
+    env: 'sandbox'
 });
 
 // Employee Model
@@ -21,19 +21,6 @@ directory.Employee = Appacitive.Object.extend({
     defaults: {
         managerid: null,
         managedname: ''
-    },
-
-    // Override internal constructor to add endpoints for connection
-    // If attributes has id passed, then we set __id in the attributes 
-    // Finally we call the internal constructor
-    constructor: function(attrs) {
-        // Hack to set id property from __id as Appacitive doesn't support setting id directly and vice-versa
-        // Appacitive maps id to __id 
-        if (attrs.id) attrs.__id = attrs.id
-        else if (attrs.__id) attrs.id = attrs.__id;
-
-        // Invoke internal constructor
-        Appacitive.Object.apply(this, arguments);
     },
 
     // Returns name formed by concatinating firstnamr and lastname

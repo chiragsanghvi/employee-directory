@@ -33,7 +33,7 @@ directory.EmployeeListItemView = Backbone.View.extend({
 
     render:function () {
         var data = _.clone(this.model.toJSON());
-        data.id = this.model.get('id');
+        data.id = this.model.id;
         this.$el.html(this.template(data));
         return this;
     }
